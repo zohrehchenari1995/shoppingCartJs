@@ -1,0 +1,228 @@
+@import url("/css/font.css");
+
+/*-------------------- css reset */
+*,
+*::before,
+*:after{
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
+}
+/*------------------- font-size */
+html{
+  font-size: 62.5%;
+}
+/*----------------------- font */
+.title{
+  font-size: 1.4rem;
+}
+/*------------------ variable */
+:root{
+  --color-primary: #6b28d9;
+  --color-secondary: #cfc6d8;
+  --color-text: #000000;
+  --color-box: #f6f3f3;
+}
+
+header{
+  background-color: lightblue;
+}
+/*------------------------title shopping */
+.title{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--color-text);
+  margin-top: 3rem;
+}
+/*----------- container just for products */
+.container{
+  /* max-width: 1330px; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+/*----------------------- all products */
+.products-total{
+  display: grid;
+  grid-template-columns: 300px;
+  row-gap: 10rem;
+  padding: 7rem 5rem;
+}
+.product{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+  
+}
+.product-detail{
+  position: relative;
+}
+.product >img{
+  width: 280px;
+  height: 230px;
+  object-fit: contain;
+  border-top-right-radius: 5px;
+  border-top-left-radius: 5px;
+}
+/*------------------------detail box for product */
+.product__up{
+  width: 282px;
+  height: 95px;
+  position: absolute;
+  top: 185px;
+  right: 9px;
+  background-color: var(--color-box);
+  box-shadow: 0px 10px 20px rgba(181, 168, 202, 0.8);
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+.product__up-detail{
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: wrap;
+  cursor: pointer;
+}
+.product__up-detail .product__price{
+  color: var(--color-primary);
+ 
+}
+
+.product__up-detail p,button{
+  font-family: "Vazirmatn";
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+.product__up-button{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+ button{
+  outline: 0;
+  border: 0;
+  background-color: var(--color-secondary);
+  padding:0.5rem 0.9rem;
+  border-radius: 20px;
+  cursor: pointer;
+  color: var(--color-primary);
+  
+}
+/*----------------------------- navbar */
+.nav{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 1rem 2rem;
+}
+.nav__list{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  font-size: 1.4rem;
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: all 0.4s ease-out;
+}
+.nav.nav__expanded .nav__list{
+  max-height: 100%;
+  opacity: 1;
+}
+.nav__item{
+  margin-bottom: 1rem;
+  background-color:1px solid var(--color-se);
+}
+.nav__item a{
+  text-decoration: none;
+  color: var(--color-primary);
+  display: block;
+  padding: 0.5rem  0;
+}
+
+/* toggler (menu hamberger) */
+.nav__toggler{
+  cursor: pointer;
+}
+.bar{
+  width: 25px;
+  height: 3px;
+  margin: 5px 0;
+  background-color: var(--color-primary);
+  border-radius: 5px;
+  transition: all 0.2s ease-out;
+}
+.nav.nav__expanded .bar-one{
+  transform: rotate(-45deg) translate(-9px,6px);
+  margin: 8px 0;
+}
+.nav.nav__expanded .bar-two{
+  opacity: 0;
+  transform: rotatex(-20px);
+}
+.nav.nav__expanded .bar-three{
+  transform: rotate(45deg) translate(-8px,-8px);
+  margin: 8px 0;
+}
+/* media for menu */
+@media screen and (min-width:1024px){
+  .nav{
+    flex-wrap: nowrap;
+    padding: 0 2rem;
+    height: 65px;
+  }
+  .nav__list{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: auto; 
+    font-size: 1.6rem;
+    max-height: 100%;
+    opacity: 1;
+  }
+  .nav__item{
+    margin-right: 2rem;
+    border:0;
+    margin-bottom: 0;
+  }
+    .nav__toggler{
+      display: none;
+    } 
+}
+/*---------------- media for products */
+@media screen and (min-width:768px) {
+  .products-total{
+    grid-template-columns: 300px 300px;
+    gap: 8rem;
+  }
+}
+@media  screen and (min-width:1024px) {
+  .products-total{
+    grid-template-columns: 300px 300px 300px;
+    column-gap: 5rem;
+    row-gap: 8rem;
+  }
+}
+/*--------------------- media for fonts */
+@media screen and (min-width:768px) {
+  .title{
+    font-size: 1.8rem;
+  }
+  .product__up-detail p,button{
+    font-size: 1.2rem;
+  }
+}
+@media screen and (min-width:1024px) {
+  .title{
+    font-size: 1.8rem;
+  }
+  .product__up-detail p,button{
+    font-size: 1.4rem;
+  }
+}
+/* ,,,,,, */
