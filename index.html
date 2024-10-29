@@ -5,15 +5,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>shopping cart</title>
   <link rel="stylesheet" href="./css/index.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" 
+  crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
 
   <!-------------------------------------------------------- menu -->
   <header>
       <nav class="nav  container">
-      <a href="#">
-        <span>cart</span>
-      </a>
+    
+      <div class="cart-btn">
+        <span class="nav-icon">
+          <i class="fas fa-cart-plus"></i>
+        </span>
+        <div class="cart-item-number">0</div>
+      </div>
 
       <div class="nav__toggler">
         <div class="bar  bar-one"></div>
@@ -40,18 +46,18 @@
 
     <!---------------------------------------------- product one -->
     <div class="product product-one product-detail">
-      <img src="./assets/image/product-1.jpeg" alt="productone">
+      <img class="product-image" src="./assets/image/product-1.jpeg" alt="productone">
       <div class="product__up  product__up-detail">
         <p class="product__title">سرویس خواب فنرمنفصل</p>
         <p class="product__price">20</p>
         <div class="product__up-button">
-          <button>افزودن به سبد خرید</button>
+          <button class="btn add-to-cart">افزودن به سبد خرید</button>
         </div>
       </div>
-    </div>
+    </div> 
 
     <!---------------------------------------------- product two -->
-    <div class="product product-two product-detail">
+     <div class="product product-two product-detail">
       <img src="./assets/image/product-2.jpeg" alt="producttwo">
       <div class="product__up  product__up-detail">
         <p class="product__title">سرویس خواب فنرمنفصل</p>
@@ -72,7 +78,7 @@
           <button>افزودن به سبد خرید</button>
         </div>
       </div>
-    </div>
+    </div> 
 
     <!----------------------------------------------- product-four -->
     <div class="product product-four product-detail">
@@ -96,10 +102,10 @@
           <button>افزودن به سبد خرید</button>
         </div>
       </div>
-    </div>
+    </div> 
 
     <!----------------------------------------------- product-six -->
-    <div class="product product-six product-detail">
+     <div class="product product-six product-detail">
       <img src="./assets/image/product-6.jpeg" alt="productsix">
       <div class="product__up  product__up-detail">
         <p class="product__title">سرویس خواب فنرمنفصل</p>
@@ -108,10 +114,10 @@
           <button>افزودن به سبد خرید</button>
         </div>
       </div>
-    </div>
+    </div> 
 
     <!---------------------------------------------- product-seven -->
-    <div class="product product-seven product-detail">
+     <div class="product product-seven product-detail">
       <img src="./assets/image/product-7.jpeg" alt="productseven">
       <div class="product__up  product__up-detail">
         <p class="product__title">سرویس خواب فنرمنفصل</p>
@@ -120,21 +126,56 @@
           <button>افزودن به سبد خرید</button>
         </div>
       </div>
-    </div>
+    </div> 
 
     <!------------------------------------------ product-eight -->
-    <div class="product product-eight product-detail">
+     <div class="product product-eight product-detail">
       <img src="./assets/image/product-8.jpeg" alt="producteight">
       <div class="product__up  product__up-detail">
         <p class="product__title">سرویس خواب فنرمنفصل</p>
         <p class="product__price">20</p>
         <div class="product__up-button">
           <button>افزودن به سبد خرید</button>
-        </div>
+        </div> 
       </div>
     </div>
   </div>
  </div>
+
+
+ <!-- modal & backdrop-->
+  <section class="cart-center">
+    <div class="backdrop"></div>
+    <!-- <button class="btn show-modal">showModal</button> --> 
+     <!-- product img & product title & product price -->
+     <div class="cart">
+      <h3 class="cart-title">سبدخرید شما</h3>
+      <div class="cart-content">
+        <div class="cart-item">
+          <img class="cart-item-image"  src="./assets/image/product-1.jpeg" alt="">
+          <div class="cart-item-description">
+            <h4>عنوان محصول</h4>
+            <h5>20میلیون</h5>
+          </div> 
+
+          <!-- up & down button -->
+           <div class="cart-item-controller">
+            <i class="fas fa-chervon-up"></i>
+            <p>1</p>
+            <i class="fas fa-chervon-down"></i>
+          </div>
+        </div>
+        </div>
+
+        <!-- footer cart -->
+         <div class="cart-footer">
+          <button class="btn clear-cart">بستن سبد خرید</button>
+          <button class="btn cart-item-confrim">ثبت کالا</button>
+          <span class="cart-total">قیمت کل:90 میلیون تومان</span>
+         </div>
+      </div>
+    
+  </section>
 </body>
 <script src="./app.js"></script>
 <script src="./menu.js"></script>
