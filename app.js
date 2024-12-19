@@ -2,10 +2,11 @@
 const cartBtn = document.querySelector(".cart-btn");
 const cartModal = document.querySelector(".cart");
 const backdrop = document.querySelector(".backdrop");
-const closeModal = document.querySelector(".cart-item-confrim");
+const closeModal = document.querySelector(".cart-item-confirm");
 const productsDom = document.querySelector(".products-total");
-const cartFooter = document.querySelector(".cart-footer");
+const cartTotal = document.querySelector(".cart-total");
 const cartItemNumber = document.querySelector(".cart-item-number");
+const cartContent = document.querySelector(".cart-content");
 
 //-----------------------------------------------------class(oop)
 import { productsData } from "./products.js";
@@ -28,7 +29,7 @@ class UI {
           <img
             class="product-image"
             src=${item.imageUrl}
-            alt="productone"
+            alt="production"
           />
           <div class="product__up product__up-detail">
             <p class="product__title">${item.title}</p>
@@ -50,7 +51,7 @@ class UI {
       const id = btn.dataset.id;
       // check if this product id is in  cart or not
       const isInCart = cart.find((p) => {
-        return p.id === id;
+        return p.id === parseInt(id);
       });
       if (isInCart) {
         btn.innerText = "موجود درسبد خرید";
@@ -61,15 +62,16 @@ class UI {
         event.target.disabled = true;
 
         // get product from products:
-        const addProduct = Storage.getProduct(id);
+        const addProduct = {...Storage.getProduct(id),quantity:1};
         // console.log(addProduct);
         // add to cart:
-        cart = [...cart, { ...addProduct, quantity: 1 }];
+        cart = [...cart, addProduct];
         // save cart to localstorage:
         Storage.saveCart(cart);
         // update cart value:
         this.setCartValue(cart);
         // add to cart item:
+        this.addCartItem(addProduct);
       });
     });
   }
@@ -81,10 +83,43 @@ class UI {
       tempCartItems += curr.quantity;
       return acc + curr.price * curr.quantity;
     }, 0);
-    cartFooter.innerText =`قیمت کل:${totalPrice.toFixed(2)}میلیون تومان`;
+    cartTotal.innerText =`قیمت کل:${totalPrice.toFixed(2)}میلیون تومان`;
     cartItemNumber.innerText = tempCartItems;
     console.log(tempCartItems);
   }
+  addCartItem(cartItem){
+    const div = document.createElement("div");
+    div.classList.add("cart-item");
+    div.innerHTML = `
+     <img
+              class="cart-item-image"
+              src="${cartItem.imageUrl}"/>
+            <div class="cart-item-description">
+              <h4>${cartItem.title}</h4>
+              <h5>${cartItem.price} میلیون تومان </h5>
+            </div>
+
+             <div class="cart-item-controller">
+              <i class="fas fa-chevron-up"></i>
+              <p>${cartItem.quantity}</p>
+              <i class="fas fa-chevron-down"></i>
+              <i class="far fa-trash-alt"></i>
+              </div>
+
+    `
+    cartContent.appendChild(div);
+  }
+  setupApp(){
+    // get cart from storage
+     cart = Storage.getCart() || [];
+    // add cartItem
+    cart.forEach((cartItem)=>{
+      return this.addCartItem(cartItem)
+    });
+    // setValues: price + item 
+    this.setCartValue(cart);
+  }
+
 }
 
 // 3.storage(save all products in localStorage)
@@ -99,6 +134,9 @@ class Storage {
   static saveCart(cart) {
     localStorage.setItem("cart", JSON.stringify(cart));
   }
+  static getCart(){
+    return JSON.parse(localStorage.getItem("cart"));
+  }
 }
 
 // event
@@ -108,6 +146,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const ui = new UI();
   ui.displayProducts(productsData);
   ui.getAddToCartBtn();
+  // set up :get cart and set up app:
+  ui.setupApp();
   Storage.saveProducts(productsData);
 });
 
@@ -115,7 +155,7 @@ document.addEventListener("DOMContentLoaded", () => {
 function showModal() {
   backdrop.style.display = "block";
   cartModal.style.opacity = "1";
-  cartModal.style.top = "20%";
+  cartModal.style.top = "0%";
 }
 function closeModalFunction() {
   backdrop.style.display = "none";
