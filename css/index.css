@@ -67,13 +67,8 @@ header {
 .product > img {
   width: 280px;
   height: 230px;
-  object-fit: contain;
-  /* border-radius: 10% !important; */
-  /* border-top-left-radius: 8px;
-  border-top-right-radius: 4rem; */
-  border-top-right-radius:calc(1rem - 1px)!important;
-  border-top-left-radius: calc(1rem - 1px)!important;
-  
+  object-fit: cover;
+  border-radius: 8px;
 }
 
 /*------------------------detail box for product */
@@ -265,8 +260,8 @@ button {
   position: fixed;
   top: -100%;
   right: 12%;
- 
-  overflow: scroll;
+  overflow-y: scroll;
+  height: 80vh;
 
 }
 /* .cart-container {
