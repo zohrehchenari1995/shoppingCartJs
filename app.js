@@ -14,6 +14,7 @@ const clearCart = document.querySelector(".clear-cart");
 
 //-----------------------------------------------------class(oop)
 let cart = [];
+let buttonsDom =[];
 
 // 1.get products
 class Products {
@@ -47,13 +48,13 @@ class UI {
     });
   }
   getAddToCartBtn() {
-    const addToCartBtn = document.querySelectorAll(".add-to-cart");
-    const buttons = [...addToCartBtn];
+    const addToCartBtn = [...document.querySelectorAll(".add-to-cart")];
+    buttonsDom = addToCartBtn;
 
-    buttons.forEach((btn) => {
+    addToCartBtn.forEach((btn) => {
       const id = btn.dataset.id;
       // check if this product id is in  cart or not
-     const isInCart = cart.find((p)=>{return p.id === parseInt(id)})
+     const isInCart = cart.find((p)=>{return parseInt(p.id) == parseInt(id)})
       if (isInCart) {
         btn.innerText = "موجود درسبد خرید";
         btn.disabled = true;
@@ -144,6 +145,14 @@ class UI {
     this.setCartValue(cart);
     // update storage
     Storage.saveCart(cart);
+    // get add to cart btns =>(update text and disabled)
+    this.getSingleBtn(id);
+   
+  }
+  getSingleBtn(id){
+    const button = buttonsDom.find((btn)=> parseInt(btn.dataset.id) === parseInt(id));
+    button.innerText = "افزودن به سبد خرید";
+    button.disabled = false;
   }
 }
 
@@ -178,7 +187,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 //-------------------------------------------------- cart item modal
-function showModal() {
+function showModalFunction() {
   backdrop.style.display = "block";
   cartModal.style.opacity = "1";
   cartModal.style.top = "0%";
@@ -188,6 +197,6 @@ function closeModalFunction() {
   cartModal.style.opacity = "0";
   cartModal.style.top = "-100%";
 }
-cartBtn.addEventListener("click", showModal);
+cartBtn.addEventListener("click", showModalFunction);
 closeModal.addEventListener("click", closeModalFunction);
 backdrop.addEventListener("click", closeModalFunction);
