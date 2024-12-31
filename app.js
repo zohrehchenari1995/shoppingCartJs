@@ -127,6 +127,27 @@ class UI {
     clearCart.addEventListener("click",()=>{
       return this.clearCart();
     })
+    // cart functionality
+    cartContent.addEventListener("click",(event)=>{
+      if(event.target.classList.contains("fa-chevron-up")){
+        console.log(event.target.dataset.id);
+        const addQuantity = event.target;
+
+        // get item from cart 
+        const addedItem = cart.find((cItem)=> cItem.id === parseInt(addQuantity.dataset.id));
+        addedItem.quantity++;
+
+        // update cart value
+        this.setCartValue(cart);
+
+        // update save cart
+        Storage.saveCart(cart);
+
+        // update cart in UI
+        addQuantity.nextElementSibling.innerText = addedItem.quantity;
+
+      }
+    })
   };
 
   clearCart(){
@@ -154,6 +175,7 @@ class UI {
     button.innerText = "افزودن به سبد خرید";
     button.disabled = false;
   }
+  
 }
 
 // 3.storage(save all products in localStorage)
