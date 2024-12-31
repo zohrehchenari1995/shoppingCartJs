@@ -14,7 +14,7 @@ const clearCart = document.querySelector(".clear-cart");
 
 //-----------------------------------------------------class(oop)
 let cart = [];
-let buttonsDom =[];
+let buttonsDom = [];
 
 // 1.get products
 class Products {
@@ -54,7 +54,9 @@ class UI {
     addToCartBtn.forEach((btn) => {
       const id = btn.dataset.id;
       // check if this product id is in  cart or not
-     const isInCart = cart.find((p)=>{return parseInt(p.id) == parseInt(id)})
+      const isInCart = cart.find((p) => {
+        return parseInt(p.id) == parseInt(id);
+      });
       if (isInCart) {
         btn.innerText = "موجود درسبد خرید";
         btn.disabled = true;
@@ -64,7 +66,7 @@ class UI {
         event.target.disabled = true;
 
         // get product from products:
-        const addProduct = {...Storage.getProduct(id),quantity:1};
+        const addProduct = { ...Storage.getProduct(id), quantity: 1 };
         // console.log(addProduct);
         // add to cart:
         cart = [...cart, addProduct];
@@ -80,16 +82,16 @@ class UI {
   setCartValue(cart) {
     // 1.cart items (tedad item in cart):
     // 2.cart total price:
-    let tempCartItems =0;
+    let tempCartItems = 0;
     const totalPrice = cart.reduce((acc, curr) => {
       tempCartItems += curr.quantity;
       return acc + curr.price * curr.quantity;
     }, 0);
-    cartTotal.innerText =`قیمت کل : ${totalPrice.toFixed(2)} میلیون تومان`;
+    cartTotal.innerText = `قیمت کل : ${totalPrice.toFixed(2)} میلیون تومان`;
     cartItemNumber.innerText = tempCartItems;
     // console.log(tempCartItems);
   }
-  addCartItem(cartItem){
+  addCartItem(cartItem) {
     const div = document.createElement("div");
     div.classList.add("cart-item");
     div.innerHTML = `
@@ -107,34 +109,37 @@ class UI {
               <i class="fas fa-chevron-down" data-id= ${cartItem.id}></i>
               <i class="far fa-trash-alt" data-id = ${cartItem.id}></i>
               </div>
+              
 
-    `
+    `;
     cartContent.appendChild(div);
   }
-  setupApp(){
+  setupApp() {
     // get cart from storage
-     cart = Storage.getCart() || [];
+    cart = Storage.getCart() || [];
     // add cartItem
-    cart.forEach((cartItem)=>{
-      return this.addCartItem(cartItem)
+    cart.forEach((cartItem) => {
+      return this.addCartItem(cartItem);
     });
-    // setValues: price + item 
+    // setValues: price + item
     this.setCartValue(cart);
   }
 
-  cartLogic(){
-    // clear cart 
-    clearCart.addEventListener("click",()=>{
+  cartLogic() {
+    // clear cart
+    clearCart.addEventListener("click", () => {
       return this.clearCart();
-    })
+    });
     // cart functionality
-    cartContent.addEventListener("click",(event)=>{
-      if(event.target.classList.contains("fa-chevron-up")){
+    cartContent.addEventListener("click", (event) => {
+      if (event.target.classList.contains("fa-chevron-up")) {
         console.log(event.target.dataset.id);
         const addQuantity = event.target;
 
-        // get item from cart 
-        const addedItem = cart.find((cItem)=> cItem.id === parseInt(addQuantity.dataset.id));
+        // get item from cart
+        const addedItem = cart.find(
+          (cItem) => cItem.id === parseInt(addQuantity.dataset.id)
+        );
         addedItem.quantity++;
 
         // update cart value
@@ -145,37 +150,70 @@ class UI {
 
         // update cart in UI
         addQuantity.nextElementSibling.innerText = addedItem.quantity;
+      } else if (event.target.classList.contains("fa-trash-alt")) {
+        console.log(event.target.dataset.id);
+        const removeItem = event.target;
 
-      }
-    })
-  };
+        const _removedItem = cart.find(
+          (c) => c.id == parseInt(removeItem.dataset.id)
+        );
+        this.removeItem(_removedItem.id);
 
-  clearCart(){
-     // remove : (DRY)=>
-      cart.forEach((cItem)=>this.removeItem(cItem.id));
-      while(cartContent.children.length){
-        cartContent.removeChild(cartContent.children[0]);
+        // update save cart
+        Storage.saveCart(cart);
+        cartContent.removeChild(removeItem.parentElement.parentElement);
+      } else if (event.target.classList.contains("fa-chevron-down")) {
+        const subQuantity = event.target;
+        const subsTractedItem = cart.find(
+          (c) => c.id == subQuantity.dataset.id
+        );
+
+        // condition for number in chevron button !<0
+        if (subsTractedItem.quantity === 1) {
+          this.removeItem(subsTractedItem.id);
+          cartContent.removeChild(subQuantity.parentElement.parentElement);
+          return;
+        }
+        subsTractedItem.quantity--;
+
+        // update cart value
+        this.setCartValue(cart);
+
+        // update save cart
+        Storage.saveCart(cart);
+
+        // update cart item in ui:
+        subQuantity.previousElementSibling.innerText = subsTractedItem.quantity;
       }
-      closeModalFunction();
+    });
   }
 
-  removeItem(id){
+  clearCart() {
+    // remove : (DRY)=>
+    cart.forEach((cItem) => this.removeItem(cItem.id));
+    while (cartContent.children.length) {
+      cartContent.removeChild(cartContent.children[0]);
+    }
+    closeModalFunction();
+  }
+
+  removeItem(id) {
     // update cart
-    cart = cart.filter((cItem)=> cItem.id !== id);
+    cart = cart.filter((cItem) => cItem.id !== id);
     // update totalPrice & cart Item
     this.setCartValue(cart);
     // update storage
     Storage.saveCart(cart);
     // get add to cart btns =>(update text and disabled)
     this.getSingleBtn(id);
-   
   }
-  getSingleBtn(id){
-    const button = buttonsDom.find((btn)=> parseInt(btn.dataset.id) === parseInt(id));
+  getSingleBtn(id) {
+    const button = buttonsDom.find(
+      (btn) => parseInt(btn.dataset.id) === parseInt(id)
+    );
     button.innerText = "افزودن به سبد خرید";
     button.disabled = false;
   }
-  
 }
 
 // 3.storage(save all products in localStorage)
@@ -190,7 +228,7 @@ class Storage {
   static saveCart(cart) {
     localStorage.setItem("cart", JSON.stringify(cart));
   }
-  static getCart(){
+  static getCart() {
     return JSON.parse(localStorage.getItem("cart"));
   }
 }
